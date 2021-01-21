@@ -28,6 +28,7 @@ class EmailNewsletter extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.newsletter.subscribed');
+        return $this->subject('Monthly Newsletter')
+            ->markdown('emails.newsletter.subscribed');
     }
 }
