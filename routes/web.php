@@ -27,6 +27,6 @@ Route::view('subscribe', 'subscribe')->name('subscribe');
 Route::view('unsubscribe', 'unsubscribe')->name('unsubscribe');
 
 
-Auth::routes();
+//Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
