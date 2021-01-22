@@ -19,6 +19,7 @@
             <div class="flex space-x-5 font-semibold">
                 <a href="{{ route('subscribe') }}" class="py-3 text-sm lg:text-base">Subscribe</a>
                 <a href="{{ route('unsubscribe') }}" class="py-3 text-sm lg:text-base">Unsubscribe</a>
+                <a href="{{ route('all.subscribers') }}" class="py-3 text-sm lg:text-base">Subscribers</a>
             </div>
         </div>
 

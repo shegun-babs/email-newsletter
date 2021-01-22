@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\NewsletterSubscriber;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +17,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('all-subscribers', function (){
+    $data = NewsletterSubscriber::paginate(10);
+    return view('all-subscribers', compact('data'));
+})->name('all.subscribers');
 
 Route::view('subscribe', 'subscribe')->name('subscribe');
 Route::view('unsubscribe', 'unsubscribe')->name('unsubscribe');
