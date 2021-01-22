@@ -95,9 +95,6 @@
     sudo service nginx reload
     sudo service {{ $remotePhpVer }}-fpm reload #> /dev/null
 
-    #echo {{ date("d-m-Y H:i:s "). "==== Reload promptcash-worker:* ====" }}
-    sudo supervisorctl restart promptcash-worker:*
-
     echo {{ date("d-m-Y H:i:s "). "==== Bring App up using artisan up ====" }}
     php artisan up
 
