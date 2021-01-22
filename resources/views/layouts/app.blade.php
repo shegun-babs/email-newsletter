@@ -17,8 +17,8 @@
                 <span class="hidden lg:block font-semibold uppercase">Email<br>Newsletter</span>
             </div>
             <div class="flex space-x-5 font-semibold">
-                <a href="#" class="py-3 text-sm lg:text-base">Subscribe</a>
-                <a href="#" class="py-3 text-sm lg:text-base">Unsubscribe</a>
+                <a href="{{ route('subscribe') }}" class="py-3 text-sm lg:text-base">Subscribe</a>
+                <a href="{{ route('unsubscribe') }}" class="py-3 text-sm lg:text-base">Unsubscribe</a>
             </div>
         </div>
 

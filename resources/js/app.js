@@ -18,44 +18,72 @@ window.addEventListener("DOMContentLoaded", function()
     }
 
     const subscribeForm = document.getElementById('subscribe-form');
-    const firstname = document.getElementById('firstname');
-    const lastname = document.getElementById('lastname');
-    const email = document.getElementById('email');
-    const inputNodeNames = ['firstname', 'lastname', 'email'];
+    const unsubscribeForm = document.getElementById('unsubscribe-form');
 
-    subscribeForm.addEventListener("submit", function(event)
-    {
-        event.preventDefault();
-        loading.show();
-        clearErrors();
-        axios.post("/api/v1/newsletter/subscribe", {
-            firstname: firstname.value,
-            lastname: lastname.value,
-            email: email.value,
-        })
-            .then(function(response){
-                loading.hide();
-                //clear inputs
-                clearInputValues();
-                //show flash message
-                sweetAlert.fire({icon: 'success', 'title': 'Success', 'text': 'You have subscribed successfully',});
-                console.log(response)
+    if ( subscribeForm ) {
+        subscribeForm.addEventListener("submit", function (event) {
+            const firstname = document.getElementById('firstname');
+            const lastname = document.getElementById('lastname');
+            const email = document.getElementById('email');
+            const inputNodeNames = ['firstname', 'lastname', 'email'];
+
+            event.preventDefault();
+            loading.show();
+            clearErrors(inputNodeNames);
+            axios.post("/api/v1/newsletter/subscribe", {
+                firstname: firstname.value,
+                lastname: lastname.value,
+                email: email.value,
             })
-            .catch(function(error){
-                loading.hide();
-                if ( error.response.data ){
-                    const errors = error.response.data.errors;
-                    console.log(errors, errors.hasOwnProperty('firstname'));
+                .then(function (response) {
+                    loading.hide();
+                    clearInputValues(inputNodeNames);
+                    sweetAlert.fire({icon: 'success', 'title': 'Success', 'text': 'You have subscribed successfully',});
+                })
+                .catch(function (error) {
+                    loading.hide();
+                    if (error.response.data) {
+                        const errors = error.response.data.errors;
+                        inputNodeNames.forEach((item) => {
+                            if (errors.hasOwnProperty(item)) {
+                                displayError(item, errors[item][0]);
+                            }
+                        });
+                    }
+                });
+        });
+    }
 
-                    inputNodeNames.forEach((item) =>
-                    {
-                        if (errors.hasOwnProperty(item)){
-                            displayError(item, errors[item][0]);
-                        }
-                    });
-                }
-            });
-    });
+    if ( unsubscribeForm ) {
+        unsubscribeForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+            const email = document.getElementById('email');
+            const inputNodeNames = ['email'];
+
+            loading.show();
+            clearErrors(inputNodeNames);
+            axios.post('/api/v1/newsletter/unsubscribe', {
+                email: email.value,
+            })
+                .then(function (response) {
+                    loading.hide();
+                    clearInputValues(inputNodeNames);
+                    sweetAlert.fire({icon: 'success', 'title': 'Success', 'text': 'You have successfully unsubscribed',});
+                })
+                .catch(function (error) {
+                    loading.hide();
+                    if (error.response.data){
+                        const errors = error.response.data.errors;
+                        inputNodeNames.forEach((item) => {
+                            if (errors.hasOwnProperty(item)){
+                                displayError(item, errors[item][0]);
+                            }
+                        })
+                    }
+                });
+        })
+    }
+
 
     function removeNextSibling(referenceNode){
         if ( document.getElementById(referenceNode).nextSibling ){
@@ -76,13 +104,13 @@ window.addEventListener("DOMContentLoaded", function()
         insertAfter(input, span);
     }
 
-    function clearErrors(nodes = inputNodeNames){
+    function clearErrors(nodes){
         nodes.forEach((item) => {
             removeNextSibling(item);
         })
     }
 
-    function clearInputValues(nodes = inputNodeNames){
+    function clearInputValues(nodes){
         nodes.forEach((item) => {
             if ( document.getElementById(item).value ){
                 document.getElementById(item).value = "";

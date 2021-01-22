@@ -17,8 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::view('subscribe', 'subscribe');
-Route::view('subscribe', 'unsubscribe');
+Route::view('subscribe', 'subscribe')->name('subscribe');
+Route::view('unsubscribe', 'unsubscribe')->name('unsubscribe');
 
 
 Auth::routes();

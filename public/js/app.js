@@ -1857,43 +1857,75 @@ window.addEventListener("DOMContentLoaded", function () {
   };
 
   var subscribeForm = document.getElementById('subscribe-form');
-  var firstname = document.getElementById('firstname');
-  var lastname = document.getElementById('lastname');
-  var email = document.getElementById('email');
-  var inputNodeNames = ['firstname', 'lastname', 'email'];
-  subscribeForm.addEventListener("submit", function (event) {
-    event.preventDefault();
-    loading.show();
-    clearErrors();
-    axios.post("/api/v1/newsletter/subscribe", {
-      firstname: firstname.value,
-      lastname: lastname.value,
-      email: email.value
-    }).then(function (response) {
-      loading.hide(); //clear inputs
+  var unsubscribeForm = document.getElementById('unsubscribe-form');
 
-      clearInputValues(); //show flash message
-
-      sweetAlert.fire({
-        icon: 'success',
-        'title': 'Success',
-        'text': 'You have subscribed successfully'
-      });
-      console.log(response);
-    })["catch"](function (error) {
-      loading.hide();
-
-      if (error.response.data) {
-        var errors = error.response.data.errors;
-        console.log(errors, errors.hasOwnProperty('firstname'));
-        inputNodeNames.forEach(function (item) {
-          if (errors.hasOwnProperty(item)) {
-            displayError(item, errors[item][0]);
-          }
+  if (subscribeForm) {
+    subscribeForm.addEventListener("submit", function (event) {
+      var firstname = document.getElementById('firstname');
+      var lastname = document.getElementById('lastname');
+      var email = document.getElementById('email');
+      var inputNodeNames = ['firstname', 'lastname', 'email'];
+      event.preventDefault();
+      loading.show();
+      clearErrors(inputNodeNames);
+      axios.post("/api/v1/newsletter/subscribe", {
+        firstname: firstname.value,
+        lastname: lastname.value,
+        email: email.value
+      }).then(function (response) {
+        loading.hide();
+        clearInputValues(inputNodeNames);
+        sweetAlert.fire({
+          icon: 'success',
+          'title': 'Success',
+          'text': 'You have subscribed successfully'
         });
-      }
+      })["catch"](function (error) {
+        loading.hide();
+
+        if (error.response.data) {
+          var errors = error.response.data.errors;
+          inputNodeNames.forEach(function (item) {
+            if (errors.hasOwnProperty(item)) {
+              displayError(item, errors[item][0]);
+            }
+          });
+        }
+      });
     });
-  });
+  }
+
+  if (unsubscribeForm) {
+    unsubscribeForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      var email = document.getElementById('email');
+      var inputNodeNames = ['email'];
+      loading.show();
+      clearErrors(inputNodeNames);
+      axios.post('/api/v1/newsletter/unsubscribe', {
+        email: email.value
+      }).then(function (response) {
+        loading.hide();
+        clearInputValues(inputNodeNames);
+        sweetAlert.fire({
+          icon: 'success',
+          'title': 'Success',
+          'text': 'You have successfully unsubscribed'
+        });
+      })["catch"](function (error) {
+        loading.hide();
+
+        if (error.response.data) {
+          var errors = error.response.data.errors;
+          inputNodeNames.forEach(function (item) {
+            if (errors.hasOwnProperty(item)) {
+              displayError(item, errors[item][0]);
+            }
+          });
+        }
+      });
+    });
+  }
 
   function removeNextSibling(referenceNode) {
     if (document.getElementById(referenceNode).nextSibling) {
@@ -1916,15 +1948,13 @@ window.addEventListener("DOMContentLoaded", function () {
     insertAfter(input, span);
   }
 
-  function clearErrors() {
-    var nodes = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : inputNodeNames;
+  function clearErrors(nodes) {
     nodes.forEach(function (item) {
       removeNextSibling(item);
     });
   }
 
-  function clearInputValues() {
-    var nodes = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : inputNodeNames;
+  function clearInputValues(nodes) {
     nodes.forEach(function (item) {
       if (document.getElementById(item).value) {
         document.getElementById(item).value = "";

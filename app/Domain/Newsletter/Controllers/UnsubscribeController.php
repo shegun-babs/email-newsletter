@@ -17,7 +17,7 @@ class UnsubscribeController
             return response()->json([
                 'message' => 'The given data was invalid',
                 'errors' => $validator->errors()
-            ]);
+            ], 422);
         }
         $this->unsubscribe($validator->validated()['email']);
         return response()->json(["status" => "success", "message" => "You are now unsubscribed"]);
