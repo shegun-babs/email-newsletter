@@ -120,6 +120,7 @@
       <path value="$PROJECT_DIR$/vendor/phar-io/manifest" />
       <path value="$PROJECT_DIR$/vendor/phar-io/version" />
       <path value="$PROJECT_DIR$/vendor/predis/predis" />
+      <path value="$PROJECT_DIR$/vendor/laravel/ui" />
     </include_path>
   </component>
   <component name="ProjectId" id="1nLsQl2P0EJkIJHNdVFoYirzJNU" />
@@ -136,6 +137,9 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\projects\email-newsletter\resources\views" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\projects\email-newsletter" />
       <recent name="C:\projects\email-newsletter\envoy" />
@@ -160,5 +164,11 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="377" y="106" key="NewPhpClassDialog" timestamp="1611192650864">
+      <screen x="0" y="0" width="1304" height="768" />
+    </state>
+    <state x="377" y="106" key="NewPhpClassDialog/0.0.1304.768@0.0.1304.768" timestamp="1611192650864" />
   </component>
 </project>

@@ -1,5 +1,7 @@
 <?php
 
+use App\Domain\Newsletter\Controllers\SubscribeController;
+use App\Domain\Newsletter\Controllers\UnsubscribeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +18,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::prefix('/v1/newsletter')->group(function()
+{
+    Route::post('subscribe', SubscribeController::class);
+    Route::post('unsubscribe', UnsubscribeController::class);
 });
